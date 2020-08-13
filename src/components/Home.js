@@ -27,9 +27,22 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url("${bgHeaderMobile}")`,
     backgroundPosition: "center center",
     backgroundSize: "cover",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
   },
-  bgHeaderDesktop: {},
+  bgHeaderDesktop: {
+    display: "none",
+    height: "100%",
+    backgroundImage: `url("${bgHeaderDesktop}")`,
+    backgroundPosition: "center center",
+    backgroundSize: "cover",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
+    },
+  },
   main: {
+    paddingBottom: theme.spacing(10),
     backgroundColor: theme.palette.neutral.lightGrayishCyanBg,
   },
   container: {
@@ -38,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
   },
   job: {
     marginBottom: theme.spacing(5),
+    [theme.breakpoints.up("md")]: {
+      marginBottom: theme.spacing(3),
+    },
   },
 }));
 
@@ -48,6 +64,7 @@ export default function Home() {
     <>
       <header className={styles.header}>
         <div className={styles.bgHeaderMobile} />
+        <div className={styles.bgHeaderDesktop} />
       </header>
       <main className={styles.main}>
         <Container>

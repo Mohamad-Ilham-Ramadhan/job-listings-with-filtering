@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme, lighten } from "@material-ui/core/styles";
 import { spartan400, spartan500, spartan600, spartan700 } from "./fonts";
 
 // ## Colors
@@ -14,7 +14,7 @@ const darkGrayishCyan = "hsl(180, 8%, 52%)";
 const veryDarkGrayishCyan = "hsl(180, 14%, 20%)";
 
 const boxShadow =
-  "0px 6px 6px -3px hsla(180, 29%, 50%, 0.1), 0px 10px 14px 1px rgba(91, 164, 164, 0.1), 0px 4px 18px 3px rgba(91, 164, 164, 0.1)";
+  "0px 6px 6px -3px hsla(180, 29%, 50%, 0.07), 0px 10px 14px 1px rgba(91, 164, 164, 0.07), 0px 4px 18px 3px rgba(91, 164, 164, 0.07)";
 
 const theme = createMuiTheme({});
 
@@ -41,6 +41,7 @@ const customizedTheme = createMuiTheme({
       darkGrayishCyan: darkGrayishCyan,
       veryDarkGrayishCyan: veryDarkGrayishCyan,
     },
+    divider: lighten(darkGrayishCyan, 0.5),
   },
   shadows: theme.shadows.map((shadow, index) => {
     return index === 10 ? boxShadow : shadow;
@@ -58,6 +59,11 @@ const customizedTheme = createMuiTheme({
       root: {
         paddingLeft: theme.spacing(3),
         paddingRight: theme.spacing(3),
+      },
+      maxWidthLg: {
+        [theme.breakpoints.up("lg")]: {
+          maxWidth: 1200,
+        },
       },
     },
     MuiButton: {

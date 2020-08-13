@@ -22,12 +22,39 @@ const useStyles = makeStyles((theme) => ({
     padding: 23,
     paddingBottom: 7, // padding - <Tag /> margin-bottom
     paddingLeft: 23,
+    [theme.breakpoints.up("md")]: {
+      padding: [32, 24, 32, 38],
+    },
   },
-  avatarSmall: {
+  gridContent: {},
+  gridTags: {
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      flexWrap: "wrap",
+      marginBottom: -16,
+      marginRight: -16,
+    },
+  },
+  gridAvatar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  avatar: {
     width: theme.spacing(6),
     height: theme.spacing(6),
     position: "absolute",
-    top: -theme.spacing(3),
+    top: -theme.spacing(6),
+    left: 0,
+    [theme.breakpoints.up("md")]: {
+      position: "relative",
+      top: 0,
+      width: 88,
+      height: 88,
+    },
   },
   flex: {
     display: "flex",
@@ -37,13 +64,21 @@ const useStyles = makeStyles((theme) => ({
   breadcrumbs: {
     "& p": {
       fontWeight: 500,
-      color: lighten(theme.palette.neutral.darkGrayishCyan, 0.2),
+      color: lighten(theme.palette.neutral.darkGrayishCyan, 0.1),
       fontSize: "0.78rem",
+    },
+    [theme.breakpoints.up("md")]: {
+      "& p": {
+        fontSize: ".9rem",
+      },
     },
   },
   tag: {
     marginRight: theme.spacing(2),
     marginBottom: theme.spacing(2),
+    [theme.breakpoints.up("md")]: {
+      marginBottom: 16,
+    },
   },
   position: {
     display: "block",
@@ -52,6 +87,10 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       color: theme.palette.primary.main,
       textDecoration: "none",
+    },
+    [theme.breakpoints.up("md")]: {
+      fontSize: "1.125rem",
+      marginBottom: 8,
     },
   },
   company: {
@@ -66,9 +105,18 @@ const useStyles = makeStyles((theme) => ({
         marginRight: 0,
       },
     },
+    [theme.breakpoints.up("md")]: {
+      marginTop: 0,
+      "& .MuiTypography-root": {
+        fontSize: ".9rem",
+      },
+    },
   },
   divider: {
     margin: `${theme.spacing(2)}px 0`,
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
   },
 }));
 const useStylesBorderLeft = makeStyles((theme) => ({
@@ -85,7 +133,6 @@ const useStylesDot = makeStyles((theme) => ({
     borderRadius: "100%",
   },
 }));
-// asldjflasjf
 function Dot() {
   const styles = useStylesDot();
   return <div className={styles.root}></div>;
@@ -112,27 +159,33 @@ export default function Job({
       className={clsx(styles.root, stylesBorderLeft.root, props.className)}
       elevation={10}
     >
-      <Grid>
-        <Grid item xs={12}>
-          <Avatar className={styles.avatarSmall} src={logo}></Avatar>
-          <Box className={styles.company}>
-            <Typography color="primary" variant="body1" component="span">
-              {company}
-            </Typography>
-            {isNew ? <Chip label="NEW!" color="primary" /> : null}
-            {featured ? <Chip label="FEATURED" color="secondary" /> : null}
-          </Box>
-          <Link className={styles.position} href="#" variant="h6">
-            {position}
-          </Link>
-          <Breadcrumbs className={styles.breadcrumbs} separator={<Dot />}>
-            <Typography>{postedAt}</Typography>
-            <Typography>{contract}</Typography>
-            <Typography>{location}</Typography>
-          </Breadcrumbs>
+      <Grid container>
+        <Grid item xs={12} md={6}>
+          <Grid container>
+            <Grid className={styles.gridAvatar} item md={3}>
+              <Avatar className={styles.avatar} src={logo}></Avatar>
+            </Grid>
+            <Grid item md={9}>
+              <Box className={styles.company}>
+                <Typography color="primary" variant="body1" component="span">
+                  {company}
+                </Typography>
+                {isNew ? <Chip label="NEW!" color="primary" /> : null}
+                {featured ? <Chip label="FEATURED" color="secondary" /> : null}
+              </Box>
+              <Link className={styles.position} href="#" variant="h6">
+                {position}
+              </Link>
+              <Breadcrumbs className={styles.breadcrumbs} separator={<Dot />}>
+                <Typography>{postedAt}</Typography>
+                <Typography>{contract}</Typography>
+                <Typography>{location}</Typography>
+              </Breadcrumbs>
+            </Grid>
+          </Grid>
+          <Divider className={styles.divider} />
         </Grid>
-        <Divider className={styles.divider} />
-        <Grid item xs={12}>
+        <Grid className={styles.gridTags} item xs={12} md={6}>
           {tags.map((label) => (
             <Tag key={uuid()} className={styles.tag} label={label} />
           ))}
