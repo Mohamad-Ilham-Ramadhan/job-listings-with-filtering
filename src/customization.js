@@ -1,5 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
-import { spartan400, spartan700 } from "./fonts";
+import { spartan400, spartan500, spartan600, spartan700 } from "./fonts";
 
 // ## Colors
 // ### Primary
@@ -21,8 +21,14 @@ const theme = createMuiTheme({});
 const customizedTheme = createMuiTheme({
   typography: {
     fontFamily: "Spartan",
+    h6: {
+      fontSize: ".95rem",
+      fontWeight: "bold",
+    },
     body1: {
       fontFamily: "Spartan",
+      fontSize: "0.8rem",
+      fontWeight: "bold",
     },
   },
   palette: {
@@ -42,15 +48,40 @@ const customizedTheme = createMuiTheme({
   overrides: {
     MuiCssBaseline: {
       "@global": {
-        "@font-face": [spartan400, spartan700],
+        "@font-face": [spartan400, spartan500, spartan600, spartan700],
         body: {
           fontFamily: "Spartan, Roboto, Helvetica, Arial, sans-serif",
         },
       },
     },
+    MuiContainer: {
+      root: {
+        paddingLeft: theme.spacing(3),
+        paddingRight: theme.spacing(3),
+      },
+    },
     MuiButton: {
       root: {
         textTransform: "none",
+      },
+    },
+    MuiChip: {
+      root: {
+        fontWeight: "bold",
+        fontSize: "0.725rem",
+        height: 24,
+      },
+      colorPrimary: {
+        color: "white",
+      },
+      colorSecondary: {
+        backgroundColor: veryDarkGrayishCyan,
+        color: "white",
+      },
+      label: {
+        paddingLeft: 8,
+        paddingRight: 8,
+        transform: "translateY(1.5px)",
       },
     },
   },
