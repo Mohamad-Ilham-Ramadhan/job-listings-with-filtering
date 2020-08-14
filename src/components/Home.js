@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, StylesProvider } from "@material-ui/core/styles";
 import bgHeaderMobile from "../images/bg-header-mobile.svg";
 import bgHeaderDesktop from "../images/bg-header-desktop.svg";
@@ -16,7 +16,6 @@ let data = database.map((item) => ({
   tags: [item.role, item.level, ...item.languages, ...item.tools],
 }));
 
-// console.log(data);
 const useStyles = makeStyles((theme) => ({
   header: {
     height: 156,
@@ -43,11 +42,23 @@ const useStyles = makeStyles((theme) => ({
   },
   main: {
     paddingBottom: theme.spacing(10),
+    paddingTop: theme.spacing(7),
     backgroundColor: theme.palette.neutral.lightGrayishCyanBg,
+    [theme.breakpoints.up("md")]: {
+      paddingTop: theme.spacing(10),
+    },
   },
   container: {
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
+  },
+  filter: {
+    marginBottom: theme.spacing(7),
+    marginTop: -92,
+    [theme.breakpoints.up("md")]: {
+      marginBottom: theme.spacing(5),
+      marginTop: -112,
+    },
   },
   job: {
     marginBottom: theme.spacing(5),
@@ -59,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const styles = useStyles();
-
+  const [tags, setTags] = useState(["asdf", "fdsa", "javascript", "nodejs"]);
   return (
     <>
       <header className={styles.header}>
@@ -67,8 +78,8 @@ export default function Home() {
         <div className={styles.bgHeaderDesktop} />
       </header>
       <main className={styles.main}>
-        <Container>
-          <Filter />
+        <Container className={styles.container}>
+          <Filter className={styles.filter} tags={tags} />
           {data.map((job) => (
             <Job
               key={job.id}

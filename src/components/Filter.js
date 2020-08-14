@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -10,15 +11,19 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: 20,
     paddingBottom: 4, // padding  - marginBottom of <FIlterTag  />
-    transform: "translateY(-38px)",
-    marginBottom: theme.spacing(2),
+    [theme.breakpoints.up("md")]: {
+      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(5),
+    },
   },
   gridClear: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   clear: {
+    padding: 0,
+    minWidth: 0,
     fontSize: "0.85rem",
     fontWeight: "bold",
     color: theme.palette.neutral.darkGrayishCyan,
@@ -38,20 +43,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Filter() {
+export default function Filter({ tags, ...props }) {
   const styles = useStyles();
-  return (
-    <Paper className={styles.root} elevation={10}>
-      <Grid container>
-        <Grid item xs={10}>
-          <FilterTag className={styles.filterTag} label="Frontend" />
-          <FilterTag className={styles.filterTag} label="CSS" />
-          <FilterTag className={styles.filterTag} label="JavaScript" />
+
+  if (tags.length > 0) {
+    return (
+      <Paper className={clsx(styles.root, props.className)} elevation={10}>
+        <Grid container>
+          <Grid item xs={10}>
+            {tags.map((tag) => (
+              <FilterTag key={tag} className={styles.filterTag} label={tag} />
+            ))}
+          </Grid>
+          <Grid className={styles.gridClear} item xs={2}>
+            <Button className={styles.clear}>Clear</Button>
+          </Grid>
         </Grid>
-        <Grid className={styles.gridClear} item xs={2}>
-          <Button className={styles.clear}>Clear</Button>
-        </Grid>
-      </Grid>
-    </Paper>
-  );
+      </Paper>
+    );
+  } else {
+    return null;
+  }
 }
