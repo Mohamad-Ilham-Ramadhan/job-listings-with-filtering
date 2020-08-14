@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Filter({ tags, ...props }) {
+export default function Filter({ tags, handleDelete, handleClear, ...props }) {
   const styles = useStyles();
 
   if (tags.length > 0) {
@@ -52,11 +52,18 @@ export default function Filter({ tags, ...props }) {
         <Grid container>
           <Grid item xs={10}>
             {tags.map((tag) => (
-              <FilterTag key={tag} className={styles.filterTag} label={tag} />
+              <FilterTag
+                key={tag}
+                className={styles.filterTag}
+                label={tag}
+                handleDelete={handleDelete}
+              />
             ))}
           </Grid>
           <Grid className={styles.gridClear} item xs={2}>
-            <Button className={styles.clear}>Clear</Button>
+            <Button className={styles.clear} onClick={handleClear}>
+              Clear
+            </Button>
           </Grid>
         </Grid>
       </Paper>

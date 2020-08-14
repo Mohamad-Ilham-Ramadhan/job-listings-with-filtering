@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export default function FilterTag({ label, ...props }) {
+export default function FilterTag({ label, handleDelete, ...props }) {
   const styles = useStyles();
   return (
     <ButtonGroup
@@ -34,7 +34,12 @@ export default function FilterTag({ label, ...props }) {
       {...props}
     >
       <Tag label={label} />
-      <Button className={styles.close}>
+      <Button
+        className={styles.close}
+        onClick={(e) => {
+          handleDelete(label, e);
+        }}
+      >
         <ClearIcon />
       </Button>
     </ButtonGroup>

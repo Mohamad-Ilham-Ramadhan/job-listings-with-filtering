@@ -70,7 +70,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const styles = useStyles();
-  const [tags, setTags] = useState(["asdf", "fdsa", "javascript", "nodejs"]);
+  const [tags, setTags] = useState([
+    "Frontend",
+    "React",
+    "JavaScript",
+    "nodejs",
+  ]);
+  useEffect(() => {
+    console.log("change in Tags");
+  }, [tags]);
+
+  function handleDelete(label, e) {
+    setTags(tags.filter((tag) => label !== tag));
+    console.log(tags.filter((tag) => label !== tag));
+  }
+  function handleClear() {
+    setTags([]);
+  }
+
   return (
     <>
       <header className={styles.header}>
@@ -79,7 +96,13 @@ export default function Home() {
       </header>
       <main className={styles.main}>
         <Container className={styles.container}>
-          <Filter className={styles.filter} tags={tags} />
+          <Filter
+            className={styles.filter}
+            tags={tags}
+            handleDelete={handleDelete}
+            handleClear={handleClear}
+          />
+          {/* [TERNYATA] mapping data yang bikin lemot!!!, di dalam Job ada mapping data lagi */}
           {data.map((job) => (
             <Job
               key={job.id}
