@@ -22,9 +22,19 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export default function Tag({ label, ...props }) {
+export default function Tag({ label, handleClick, ...props }) {
   const styles = useStyles();
+  function onClick(label) {
+    return handleClick(label);
+  }
   return (
-    <Button className={clsx(styles.root, props.className)}>{label}</Button>
+    <Button
+      className={clsx(styles.root, props.className)}
+      onClick={() => {
+        handleClick(label);
+      }}
+    >
+      {label}
+    </Button>
   );
 }

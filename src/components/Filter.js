@@ -43,7 +43,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Filter({ tags, handleDelete, handleClear, ...props }) {
+export default function Filter({
+  tags,
+  handleDelete,
+  handleClear,
+  handleClickTag,
+  ...props
+}) {
   const styles = useStyles();
 
   if (tags.length > 0) {
@@ -57,6 +63,7 @@ export default function Filter({ tags, handleDelete, handleClear, ...props }) {
                 className={styles.filterTag}
                 label={tag}
                 handleDelete={handleDelete}
+                handleClickTag={handleClickTag}
               />
             ))}
           </Grid>

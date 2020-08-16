@@ -13,7 +13,7 @@ import Box from "@material-ui/core/Box";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
 import avaPhotosnap from "../images/photosnap.svg";
-import Tag from "./Tag";
+import Tags from "./Tags";
 
 const borderThick = 5;
 const useStyles = makeStyles((theme) => ({
@@ -147,6 +147,7 @@ export default function Job({
   location,
   contract,
   tags,
+  handleClick,
   ...props
 }) {
   const styles = useStyles();
@@ -186,9 +187,7 @@ export default function Job({
           <Divider className={styles.divider} />
         </Grid>
         <Grid className={styles.gridTags} item xs={12} md={6}>
-          {tags.map((label) => (
-            <Tag key={uuid()} className={styles.tag} label={label} />
-          ))}
+          <Tags tags={tags} styles={styles.tag} handleClick={handleClick} />
         </Grid>
       </Grid>
     </Paper>

@@ -5,7 +5,7 @@ import bgHeaderDesktop from "../images/bg-header-desktop.svg";
 import Container from "@material-ui/core/Container";
 
 import Filter from "./Filter";
-import Job from "./Job";
+import Jobs from "./Jobs";
 
 import database from "../../database.json";
 
@@ -15,6 +15,8 @@ let data = database.map((item) => ({
   logo: `${imagesPath + item.logo}`,
   tags: [item.role, item.level, ...item.languages, ...item.tools],
 }));
+window.data = data;
+console.log(window.data);
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -70,22 +72,37 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const styles = useStyles();
-  const [tags, setTags] = useState([
-    "Frontend",
-    "React",
-    "JavaScript",
-    "nodejs",
-  ]);
+  const [tags, setTags] = useState([]);
+  const [jobs, setJobs] = useState(data);
   useEffect(() => {
-    console.log("change in Tags");
+    setJobs(renderJobs(data, tags));
   }, [tags]);
 
   function handleDelete(label, e) {
-    setTags(tags.filter((tag) => label !== tag));
-    console.log(tags.filter((tag) => label !== tag));
+    setTags((tags) => tags.filter((tag) => label !== tag));
+    // console.log(tags.filter((tag) => label !== tag));
   }
   function handleClear() {
     setTags([]);
+  }
+  function handleClickTag(label) {
+    setTags((tags) => {
+      if (tags.find((tag) => tag == label)) {
+        return tags;
+      } else {
+        return [...tags, label];
+      }
+    });
+  }
+  function renderJobs(jobs, tags) {
+    jobs = jobs.filter((job) => {
+      tags = tags.map((item) => item.toUpperCase());
+      return tags.every((item) => {
+        const newJobTags = job.tags.map((tag) => tag.toUpperCase());
+        return newJobTags.includes(item);
+      });
+    });
+    return jobs;
   }
 
   return (
@@ -101,23 +118,10 @@ export default function Home() {
             tags={tags}
             handleDelete={handleDelete}
             handleClear={handleClear}
+            handleClickTag={handleClickTag}
           />
           {/* [TERNYATA] mapping data yang bikin lemot!!!, di dalam Job ada mapping data lagi */}
-          {data.map((job) => (
-            <Job
-              key={job.id}
-              className={styles.job}
-              logo={job.logo}
-              featured={job.featured}
-              isNew={job.new}
-              position={job.position}
-              company={job.company}
-              postedAt={job.postedAt}
-              location={job.location}
-              contract={job.contract}
-              tags={job.tags}
-            />
-          ))}
+          <Jobs jobs={jobs} styles={styles.job} handleClick={handleClickTag} />
         </Container>
       </main>
     </>
