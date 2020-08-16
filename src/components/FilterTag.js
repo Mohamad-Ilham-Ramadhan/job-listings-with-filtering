@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FilterTag({
   label,
   handleDelete,
-  handleClickTag,
+  handleClickFilterTag,
   ...props
 }) {
   const styles = useStyles();
@@ -38,7 +38,7 @@ export default function FilterTag({
       disableElevation
       {...props}
     >
-      <Tag label={label} handleClick={handleClickTag} />
+      <Tag label={label} handleClick={handleClickFilterTag} />
       <Button
         className={styles.close}
         onClick={(e) => {

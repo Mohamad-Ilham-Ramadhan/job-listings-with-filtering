@@ -94,6 +94,9 @@ export default function Home() {
       }
     });
   }
+  function handleClickFilterTag(label) {
+    setTags([label]);
+  }
   function renderJobs(jobs, tags) {
     jobs = jobs.filter((job) => {
       tags = tags.map((item) => item.toUpperCase());
@@ -118,7 +121,7 @@ export default function Home() {
             tags={tags}
             handleDelete={handleDelete}
             handleClear={handleClear}
-            handleClickTag={handleClickTag}
+            handleClickFilterTag={handleClickFilterTag}
           />
           {/* [TERNYATA] mapping data yang bikin lemot!!!, di dalam Job ada mapping data lagi */}
           <Jobs jobs={jobs} styles={styles.job} handleClick={handleClickTag} />

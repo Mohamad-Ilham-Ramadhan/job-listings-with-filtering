@@ -47,7 +47,7 @@ export default function Filter({
   tags,
   handleDelete,
   handleClear,
-  handleClickTag,
+  handleClickFilterTag,
   ...props
 }) {
   const styles = useStyles();
@@ -63,7 +63,7 @@ export default function Filter({
                 className={styles.filterTag}
                 label={tag}
                 handleDelete={handleDelete}
-                handleClickTag={handleClickTag}
+                handleClickFilterTag={handleClickFilterTag}
               />
             ))}
           </Grid>
