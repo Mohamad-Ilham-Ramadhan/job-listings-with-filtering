@@ -53,19 +53,16 @@ const useStyles = makeStyles((theme) => ({
   button: {
     display: "block",
     width: "100%",
-    padding: 25,
+    padding: 14,
+    [theme.breakpoints.up("md")]: {
+      padding: 25,
+    },
   },
 }));
 
 export default function FilterSelect({ show }) {
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [tags, setTags] = React.useState([
-    "JavaScript",
-    "Frontend",
-    "NodeJs",
-    "CSS",
-  ]);
   const [checked, setChecked] = React.useState(["CSS"]);
 
   function handleClick(e) {
@@ -114,7 +111,7 @@ export default function FilterSelect({ show }) {
         >
           <List style={{ minWidth: 200 }}>
             {availableTags.map((item) => (
-              <>
+              <React.Fragment key={item.type}>
                 <ListItem key={item.type}>
                   <ListItemText secondary={item.type} />
                 </ListItem>
@@ -126,7 +123,7 @@ export default function FilterSelect({ show }) {
                     <ListItemText primary={tag} />
                   </ListItem>
                 ))}
-              </>
+              </React.Fragment>
             ))}
           </List>
         </Popover>

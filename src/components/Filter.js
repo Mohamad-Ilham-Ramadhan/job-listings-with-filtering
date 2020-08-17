@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -23,11 +24,19 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    order: 2,
+    [theme.breakpoints.up("md")]: {
+      order: 1,
+    },
   },
   gridFilterSelect: {
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
+    order: 1,
+    [theme.breakpoints.up("md")]: {
+      order: 2,
+    },
   },
   gridClear: {
     display: "flex",
@@ -64,6 +73,9 @@ export default function Filter({
   ...props
 }) {
   const styles = useStyles();
+  const theme = useTheme();
+  const upMd = useMediaQuery(theme.breakpoints.up("md"));
+  const downSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Grid container>
@@ -103,7 +115,11 @@ export default function Filter({
       </Grid>
       <Grid
         className={styles.gridFilterSelect}
-        style={tags.length > 0 ? { paddingLeft: 16 } : null}
+        style={{
+          marginTop: tags.length > 0 && downSm ? -100 : 0,
+          // marginTop: tags.length > 0 && upMd ? 0 : null,
+          paddingLeft: tags.length > 0 && upMd ? 16 : null,
+        }}
         item
         xs={12}
         md={tags.length > 0 ? 2 : 12}
