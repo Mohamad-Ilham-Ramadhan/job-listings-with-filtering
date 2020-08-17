@@ -16,7 +16,7 @@ let data = database.map((item) => ({
   tags: [item.role, item.level, ...item.languages, ...item.tools],
 }));
 window.data = data;
-console.log(window.data);
+// console.log(window.data);
 
 const useStyles = makeStyles((theme) => ({
   header: {

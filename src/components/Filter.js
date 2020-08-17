@@ -6,15 +6,28 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
 import FilterTag from "./FilterTag";
+import FilterSelect from "./FilterSelect";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    width: "100%",
+    position: "relative",
     padding: 20,
     paddingBottom: 4, // padding  - marginBottom of <FIlterTag  />
     [theme.breakpoints.up("md")]: {
       paddingLeft: theme.spacing(5),
       paddingRight: theme.spacing(5),
     },
+  },
+  gridFilterContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  gridFilterSelect: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
   gridClear: {
     display: "flex",
@@ -52,30 +65,51 @@ export default function Filter({
 }) {
   const styles = useStyles();
 
-  if (tags.length > 0) {
-    return (
-      <Paper className={clsx(styles.root, props.className)} elevation={10}>
-        <Grid container>
-          <Grid item xs={10}>
-            {tags.map((tag) => (
-              <FilterTag
-                key={tag}
-                className={styles.filterTag}
-                label={tag}
-                handleDelete={handleDelete}
-                handleClickFilterTag={handleClickFilterTag}
-              />
-            ))}
+  return (
+    <Grid container>
+      <Grid
+        className={styles.gridFilterContainer}
+        item
+        xs={12}
+        md={10}
+        style={tags.length <= 0 ? { display: "none" } : null}
+      >
+        <Paper
+          className={clsx(styles.root, props.className)}
+          style={tags.length <= 0 ? { padding: 30 } : null}
+          elevation={10}
+        >
+          <Grid container>
+            <Grid item xs={10}>
+              {tags.map((tag) => (
+                <FilterTag
+                  key={tag}
+                  className={styles.filterTag}
+                  label={tag}
+                  handleDelete={handleDelete}
+                  handleClickFilterTag={handleClickFilterTag}
+                />
+              ))}
+            </Grid>
+            {tags.length > 0 && (
+              <Grid className={styles.gridClear} item xs={2}>
+                <Button className={styles.clear} onClick={handleClear}>
+                  Clear
+                </Button>
+              </Grid>
+            )}
           </Grid>
-          <Grid className={styles.gridClear} item xs={2}>
-            <Button className={styles.clear} onClick={handleClear}>
-              Clear
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  } else {
-    return null;
-  }
+        </Paper>
+      </Grid>
+      <Grid
+        className={styles.gridFilterSelect}
+        style={tags.length > 0 ? { paddingLeft: 16 } : null}
+        item
+        xs={12}
+        md={tags.length > 0 ? 2 : 12}
+      >
+        <FilterSelect show={tags.length > 0 ? false : true} />
+      </Grid>
+    </Grid>
+  );
 }
