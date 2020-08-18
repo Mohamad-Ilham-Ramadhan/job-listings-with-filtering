@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { makestyles, makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Popover from "@material-ui/core/Popover";
