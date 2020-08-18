@@ -70,6 +70,8 @@ export default function Filter({
   handleDelete,
   handleClear,
   handleClickFilterTag,
+  handleSelectFilterTag,
+  availableTags,
   ...props
 }) {
   const styles = useStyles();
@@ -124,7 +126,12 @@ export default function Filter({
         xs={12}
         md={tags.length > 0 ? 2 : 12}
       >
-        <FilterSelect show={tags.length > 0 ? false : true} />
+        <FilterSelect
+          show={tags.length > 0 ? false : true}
+          availableTags={availableTags}
+          selectedTags={tags}
+          handleSelectTag={handleSelectFilterTag}
+        />
       </Grid>
     </Grid>
   );

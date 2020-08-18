@@ -12,38 +12,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import database from "../../database.json";
 window.database = database;
 
-function filterTagsByType(data, type) {
-  function removeDuplicate(arr) {
-    return arr.reduce((acc, item) => {
-      const newItem = item.toUpperCase();
-      if (acc.map((el) => el.toUpperCase()).includes(newItem)) {
-        return [...acc];
-      } else {
-        return [...acc, item];
-      }
-    }, []);
-  }
-  if (Array.isArray(data[0][type])) {
-    return removeDuplicate(
-      data.reduce((acc, job) => [...acc, ...job[type]], [])
-    );
-  } else {
-    return removeDuplicate(data.map((item) => item[type]));
-  }
-}
-
-const roles = filterTagsByType(database, "role");
-const levels = filterTagsByType(database, "level");
-const languages = filterTagsByType(database, "languages");
-const tools = filterTagsByType(database, "level");
-
-const availableTags = [
-  { type: "role", tags: roles },
-  { type: "level", tags: levels },
-  { type: "languages", tags: languages },
-  { type: "tools", tags: tools },
-];
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -60,10 +28,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FilterSelect({ show }) {
+export default function FilterSelect({
+  show,
+  availableTags,
+  selectedTags,
+  handleSelectTag,
+}) {
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [checked, setChecked] = React.useState(["CSS"]);
+  // const [checked, setChecked] = React.useState([]);
+
+  // useEffect(() => {
+  //   console.log(checked);
+  // });
 
   function handleClick(e) {
     setAnchorEl(e.currentTarget);
@@ -73,12 +50,13 @@ export default function FilterSelect({ show }) {
   }
   function handleSelect(value) {
     return function () {
-      setChecked((checked) => {
-        if (checked.indexOf(value) !== -1) {
-          return checked.filter((item) => item !== value);
-        }
-        return [...checked, value];
-      });
+      // setChecked((checked) => {
+      //   if (checked.indexOf(value) !== -1) {
+      //     return checked.filter((item) => item !== value);
+      //   }
+      //   return [...checked, value];
+      // });
+      handleSelectTag(value);
     };
   }
   const open = Boolean(anchorEl);
@@ -118,7 +96,7 @@ export default function FilterSelect({ show }) {
                 {item.tags.map((tag) => (
                   <ListItem key={tag} button onClick={handleSelect(tag)}>
                     <ListItemIcon>
-                      <Checkbox checked={checked.indexOf(tag) !== -1} />
+                      <Checkbox checked={selectedTags.indexOf(tag) !== -1} />
                     </ListItemIcon>
                     <ListItemText primary={tag} />
                   </ListItem>

@@ -7,6 +7,7 @@ import Container from "@material-ui/core/Container";
 import Filter from "./Filter";
 import Jobs from "./Jobs";
 
+import filterTagsByType from "../api/filterTagsByType";
 import database from "../../database.json";
 
 const imagesPath = "./images/"; // webpack will handle the images to build directory
@@ -15,8 +16,20 @@ let data = database.map((item) => ({
   logo: `${imagesPath + item.logo}`,
   tags: [item.role, item.level, ...item.languages, ...item.tools],
 }));
-window.data = data;
+// window.data = data;
 // console.log(window.data);
+
+const roles = filterTagsByType(database, "role");
+const levels = filterTagsByType(database, "level");
+const languages = filterTagsByType(database, "languages");
+const tools = filterTagsByType(database, "tools");
+
+const availableTags = [
+  { type: "role", tags: roles },
+  { type: "level", tags: levels },
+  { type: "languages", tags: languages },
+  { type: "tools", tags: tools },
+];
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -80,7 +93,6 @@ export default function Home() {
 
   function handleDelete(label, e) {
     setTags((tags) => tags.filter((tag) => label !== tag));
-    // console.log(tags.filter((tag) => label !== tag));
   }
   function handleClear() {
     setTags([]);
@@ -91,6 +103,15 @@ export default function Home() {
         return tags;
       } else {
         return [...tags, label];
+      }
+    });
+  }
+  function handleSelectTag(tag) {
+    setTags((tags) => {
+      if (tags.find((item) => item == tag)) {
+        return tags.filter((item) => item !== tag);
+      } else {
+        return [...tags, tag];
       }
     });
   }
@@ -119,11 +140,13 @@ export default function Home() {
           <Filter
             className={styles.filter}
             tags={tags}
+            availableTags={availableTags}
             handleDelete={handleDelete}
             handleClear={handleClear}
             handleClickFilterTag={handleClickFilterTag}
+            handleSelectFilterTag={handleSelectTag}
           />
-          {/* [TERNYATA] mapping data yang bikin lemot!!!, di dalam Job ada mapping data lagi */}
+          {/* [TERNYATA] mapping data yang return <Component /> yang bikin lemot!!!, di dalam Job ada mapping data lagi */}
           <Jobs jobs={jobs} styles={styles.job} handleClick={handleClickTag} />
         </Container>
       </main>
