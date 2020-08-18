@@ -5,6 +5,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 import FilterTag from "./FilterTag";
 import FilterSelect from "./FilterSelect";
@@ -34,7 +35,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     alignItems: "center",
     order: 1,
+    marginTop: -100,
     [theme.breakpoints.up("md")]: {
+      paddingLeft: 16,
+      marginTop: 0,
       order: 2,
     },
   },
@@ -81,20 +85,17 @@ export default function Filter({
 
   return (
     <Grid container>
-      <Grid
-        className={styles.gridFilterContainer}
-        item
-        xs={12}
-        md={10}
-        style={tags.length <= 0 ? { display: "none" } : null}
-      >
+      <Grid className={styles.gridFilterContainer} item xs={12} md={10}>
         <Paper
           className={clsx(styles.root, props.className)}
-          style={tags.length <= 0 ? { padding: 30 } : null}
+          style={tags.length <= 0 ? { padding: 27.5 } : null}
           elevation={10}
         >
           <Grid container>
             <Grid item xs={10}>
+              {tags.length <= 0 && (
+                <Typography>No filters applied...</Typography>
+              )}
               {tags.map((tag) => (
                 <FilterTag
                   key={tag}
@@ -115,17 +116,7 @@ export default function Filter({
           </Grid>
         </Paper>
       </Grid>
-      <Grid
-        className={styles.gridFilterSelect}
-        style={{
-          marginTop: tags.length > 0 && downSm ? -100 : 0,
-          // marginTop: tags.length > 0 && upMd ? 0 : null,
-          paddingLeft: tags.length > 0 && upMd ? 16 : null,
-        }}
-        item
-        xs={12}
-        md={tags.length > 0 ? 2 : 12}
-      >
+      <Grid className={styles.gridFilterSelect} item xs={12} md={2}>
         <FilterSelect
           show={tags.length > 0 ? false : true}
           availableTags={availableTags}

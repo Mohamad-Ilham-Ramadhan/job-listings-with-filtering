@@ -29,18 +29,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FilterSelect({
-  show,
   availableTags,
   selectedTags,
   handleSelectTag,
 }) {
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [checked, setChecked] = React.useState([]);
-
-  // useEffect(() => {
-  //   console.log(checked);
-  // });
 
   function handleClick(e) {
     setAnchorEl(e.currentTarget);
@@ -50,12 +44,6 @@ export default function FilterSelect({
   }
   function handleSelect(value) {
     return function () {
-      // setChecked((checked) => {
-      //   if (checked.indexOf(value) !== -1) {
-      //     return checked.filter((item) => item !== value);
-      //   }
-      //   return [...checked, value];
-      // });
       handleSelectTag(value);
     };
   }
