@@ -20,6 +20,12 @@ function selectedTags(state = [], action) {
       return state.filter((tag) => action.value !== tag);
     case "SELECT_ONE_TAG":
       return [action.value];
+    case "TOGGLE_TAG":
+      if (state.find((item) => item == action.value)) {
+        return state.filter((item) => item !== action.value);
+      } else {
+        return [...state, action.value];
+      }
     default:
       return state;
   }

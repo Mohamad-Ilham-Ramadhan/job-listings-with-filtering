@@ -11,6 +11,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 
+import toggleTag from "../actions/toggleTag";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -27,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FilterSelect({ reduxTagsByType, selectedTags, handleSelectTag }) {
+function FilterSelect({ reduxTagsByType, selectedTags, toggleTag }) {
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -39,7 +41,7 @@ function FilterSelect({ reduxTagsByType, selectedTags, handleSelectTag }) {
   }
   function handleSelect(value) {
     return function () {
-      handleSelectTag(value);
+      toggleTag(value);
     };
   }
   const open = Boolean(anchorEl);
@@ -124,4 +126,8 @@ function mapState(state, ownProps) {
   };
 }
 
-export default connect(mapState, null)(FilterSelect);
+function mapDispatch(dispatch, ownProps) {
+  return bindActionCreators({ toggleTag }, dispatch);
+}
+
+export default connect(mapState, mapDispatch)(FilterSelect);
