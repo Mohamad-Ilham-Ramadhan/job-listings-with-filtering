@@ -152,7 +152,6 @@ function Job({
   location,
   contract,
   tags,
-  // handleClick,
   addTag,
   ...props
 }) {

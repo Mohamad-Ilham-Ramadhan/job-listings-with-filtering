@@ -85,11 +85,6 @@ const useStyles = makeStyles((theme) => ({
 function Home({ reduxJobs, reduxSelectedTags }) {
   console.log(reduxSelectedTags);
   const styles = useStyles();
-  const [tags, setTags] = useState([]);
-  const [jobs, setJobs] = useState(data);
-  useEffect(() => {
-    setJobs(renderJobs(data, tags));
-  }, [tags]);
 
   function handleClickTag(label) {
     setTags((tags) => {
@@ -112,16 +107,6 @@ function Home({ reduxJobs, reduxSelectedTags }) {
   // function handleClickFilterTag(label) {
   //   setTags([label]);
   // }
-  function renderJobs(jobs, tags) {
-    jobs = jobs.filter((job) => {
-      tags = tags.map((item) => item.toUpperCase());
-      return tags.every((item) => {
-        const newJobTags = job.tags.map((tag) => tag.toUpperCase());
-        return newJobTags.includes(item);
-      });
-    });
-    return jobs;
-  }
 
   return (
     <>
@@ -135,7 +120,6 @@ function Home({ reduxJobs, reduxSelectedTags }) {
             className={styles.filter}
             tags={reduxSelectedTags}
             availableTags={availableTags}
-            // handleClickFilterTag={handleClickFilterTag}
             handleSelectFilterTag={handleSelectTag}
           />
           {/* [TERNYATA] mapping data yang return <Component /> yang bikin lemot!!!, di dalam Job ada mapping data lagi */}
@@ -150,9 +134,20 @@ function Home({ reduxJobs, reduxSelectedTags }) {
   );
 }
 
+function renderJobs(jobs, tags) {
+  jobs = jobs.filter((job) => {
+    tags = tags.map((item) => item.toUpperCase());
+    return tags.every((item) => {
+      const newJobTags = job.tags.map((tag) => tag.toUpperCase());
+      return newJobTags.includes(item);
+    });
+  });
+  return jobs;
+}
+
 function mapStateToProps(state, ownProps) {
   return {
-    reduxJobs: state.jobs,
+    reduxJobs: renderJobs(state.jobs, state.selectedTags),
     reduxSelectedTags: state.selectedTags,
   };
 }
