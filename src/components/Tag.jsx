@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export default function Tag({ label, handleClick, addTag, ...props }) {
+export default function Tag({ label, handleClick, ...props }) {
   const styles = useStyles();
   return (
     <Button

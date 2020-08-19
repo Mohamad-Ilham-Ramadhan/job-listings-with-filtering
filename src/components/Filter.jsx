@@ -73,22 +73,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Filter({
-  tags,
-  handleDelete,
-  // handleClear,
-  handleClickFilterTag,
-  handleSelectFilterTag,
-  availableTags,
-  clearTags,
-  ...props
-}) {
+function Filter({ tags, clearTags, ...props }) {
   const styles = useStyles();
   const theme = useTheme();
-  const upMd = useMediaQuery(theme.breakpoints.up("md"));
-  const downSm = useMediaQuery(theme.breakpoints.down("sm"));
-
-  function handleClear() {}
 
   return (
     <Grid container>
@@ -104,13 +91,7 @@ function Filter({
                 <Typography>No filters applied...</Typography>
               )}
               {tags.map((tag) => (
-                <FilterTag
-                  key={tag}
-                  className={styles.filterTag}
-                  label={tag}
-                  handleDelete={handleDelete}
-                  handleClickFilterTag={handleClickFilterTag}
-                />
+                <FilterTag key={tag} className={styles.filterTag} label={tag} />
               ))}
             </Grid>
             {tags.length > 0 && (
@@ -127,7 +108,6 @@ function Filter({
         <FilterSelect
           show={tags.length > 0 ? false : true}
           selectedTags={tags}
-          handleSelectTag={handleSelectFilterTag}
         />
       </Grid>
     </Grid>

@@ -81,7 +81,10 @@ function FilterSelect({ reduxTagsByType, selectedTags, toggleTag }) {
                 {item.tags.map((tag) => (
                   <ListItem key={tag} button onClick={handleSelect(tag)}>
                     <ListItemIcon>
-                      <Checkbox checked={selectedTags.indexOf(tag) !== -1} />
+                      <Checkbox
+                        checked={selectedTags.indexOf(tag) !== -1}
+                        inputProps={{ "aria-label": tag, tabIndex: -1 }}
+                      />
                     </ListItemIcon>
                     <ListItemText primary={tag} />
                   </ListItem>
