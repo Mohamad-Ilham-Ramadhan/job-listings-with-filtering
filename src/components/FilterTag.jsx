@@ -1,10 +1,14 @@
 import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { makeStyles, darken } from "@material-ui/core/styles";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
 
 import Tag from "./Tag";
+
+import deleteTag from "../actions/deleteTag";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,13 +27,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export default function FilterTag({
+function FilterTag({
   label,
-  handleDelete,
+  // handleDelete,
+  deleteTag,
   handleClickFilterTag,
   ...props
 }) {
   const styles = useStyles();
+
+  function onCloseClick(label) {
+    return function () {
+      deleteTag(label);
+    };
+  }
   return (
     <ButtonGroup
       className={styles.root}
@@ -39,14 +50,15 @@ export default function FilterTag({
       {...props}
     >
       <Tag label={label} handleClick={handleClickFilterTag} />
-      <Button
-        className={styles.close}
-        onClick={(e) => {
-          handleDelete(label, e);
-        }}
-      >
+      <Button className={styles.close} onClick={onCloseClick(label)}>
         <ClearIcon />
       </Button>
     </ButtonGroup>
   );
 }
+
+function mapDispatch(dispatch) {
+  return bindActionCreators({ deleteTag }, dispatch);
+}
+
+export default connect(null, mapDispatch)(FilterTag);

@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import clsx from "clsx";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -9,6 +11,8 @@ import Typography from "@material-ui/core/Typography";
 
 import FilterTag from "./FilterTag";
 import FilterSelect from "./FilterSelect";
+
+import clearTags from "../actions/clearTags";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,19 +73,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Filter({
+function Filter({
   tags,
   handleDelete,
-  handleClear,
+  // handleClear,
   handleClickFilterTag,
   handleSelectFilterTag,
   availableTags,
+  clearTags,
   ...props
 }) {
   const styles = useStyles();
   const theme = useTheme();
   const upMd = useMediaQuery(theme.breakpoints.up("md"));
   const downSm = useMediaQuery(theme.breakpoints.down("sm"));
+
+  function handleClear() {}
 
   return (
     <Grid container>
@@ -108,7 +115,7 @@ export default function Filter({
             </Grid>
             {tags.length > 0 && (
               <Grid className={styles.gridClear} item xs={2}>
-                <Button className={styles.clear} onClick={handleClear}>
+                <Button className={styles.clear} onClick={clearTags}>
                   Clear
                 </Button>
               </Grid>
@@ -127,3 +134,9 @@ export default function Filter({
     </Grid>
   );
 }
+
+function mapDispatch(dispatch) {
+  return bindActionCreators({ clearTags }, dispatch);
+}
+
+export default connect(null, mapDispatch)(Filter);

@@ -133,6 +133,9 @@ const useStylesDot = makeStyles((theme) => ({
     borderRadius: "100%",
   },
 }));
+
+const imagesPath = "../images/";
+
 function Dot() {
   const styles = useStylesDot();
   return <div className={styles.root}></div>;
@@ -164,7 +167,10 @@ export default function Job({
         <Grid item xs={12} md={6}>
           <Grid container>
             <Grid className={styles.gridAvatar} item md={3}>
-              <Avatar className={styles.avatar} src={logo}></Avatar>
+              <Avatar
+                className={styles.avatar}
+                src={imagesPath + logo}
+              ></Avatar>
             </Grid>
             <Grid item md={9}>
               <Box className={styles.company}>

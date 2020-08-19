@@ -21,7 +21,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         use: {
           loader: "babel-loader",
           options: {
@@ -43,6 +43,9 @@ module.exports = {
         use: ["file-loader"],
       },
     ],
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
   },
   plugins: [
     new CleanWebpackPlugin(),

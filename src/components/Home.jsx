@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { makeStyles, StylesProvider } from "@material-ui/core/styles";
 import bgHeaderMobile from "../images/bg-header-mobile.svg";
 import bgHeaderDesktop from "../images/bg-header-desktop.svg";
@@ -16,8 +17,6 @@ let data = database.map((item) => ({
   logo: `${imagesPath + item.logo}`,
   tags: [item.role, item.level, ...item.languages, ...item.tools],
 }));
-// window.data = data;
-// console.log(window.data);
 
 const roles = filterTagsByType(database, "role");
 const levels = filterTagsByType(database, "level");
@@ -83,7 +82,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home() {
+function Home({ reduxJobs, reduxSelectedTags }) {
+  console.log(reduxSelectedTags);
   const styles = useStyles();
   const [tags, setTags] = useState([]);
   const [jobs, setJobs] = useState(data);
@@ -91,12 +91,6 @@ export default function Home() {
     setJobs(renderJobs(data, tags));
   }, [tags]);
 
-  function handleDelete(label, e) {
-    setTags((tags) => tags.filter((tag) => label !== tag));
-  }
-  function handleClear() {
-    setTags([]);
-  }
   function handleClickTag(label) {
     setTags((tags) => {
       if (tags.find((tag) => tag == label)) {
@@ -139,17 +133,28 @@ export default function Home() {
         <Container className={styles.container}>
           <Filter
             className={styles.filter}
-            tags={tags}
+            tags={reduxSelectedTags}
             availableTags={availableTags}
-            handleDelete={handleDelete}
-            handleClear={handleClear}
             handleClickFilterTag={handleClickFilterTag}
             handleSelectFilterTag={handleSelectTag}
           />
           {/* [TERNYATA] mapping data yang return <Component /> yang bikin lemot!!!, di dalam Job ada mapping data lagi */}
-          <Jobs jobs={jobs} styles={styles.job} handleClick={handleClickTag} />
+          <Jobs
+            jobs={reduxJobs}
+            styles={styles.job}
+            handleClick={handleClickTag}
+          />
         </Container>
       </main>
     </>
   );
 }
+
+function mapStateToProps(state, ownProps) {
+  return {
+    reduxJobs: state.jobs,
+    reduxSelectedTags: state.selectedTags,
+  };
+}
+
+export default connect(mapStateToProps)(Home);

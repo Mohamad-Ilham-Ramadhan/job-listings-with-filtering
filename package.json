@@ -11,6 +11,8 @@
     "jss-preset-default": "^10.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5",
     "uuid": "^8.3.0"
   },
   "devDependencies": {

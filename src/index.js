@@ -2,6 +2,14 @@ import React from "react";
 import { render } from "react-dom";
 import App from "./components/App";
 
-render(<App />, document.getElementById("root"));
+import { Provider } from "react-redux";
+import store from "./store";
 
-// 1. AirBnb React/JSX style guide
+console.log(store.getState());
+
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
