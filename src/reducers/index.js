@@ -18,6 +18,8 @@ function selectedTags(state = [], action) {
       return [];
     case "DELETE_TAG":
       return state.filter((tag) => action.value !== tag);
+    case "SELECT_ONE_TAG":
+      return [action.value];
     default:
       return ["Frontend", "React", "JavaScript"];
   }

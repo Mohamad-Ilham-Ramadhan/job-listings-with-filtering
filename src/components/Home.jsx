@@ -109,9 +109,9 @@ function Home({ reduxJobs, reduxSelectedTags }) {
       }
     });
   }
-  function handleClickFilterTag(label) {
-    setTags([label]);
-  }
+  // function handleClickFilterTag(label) {
+  //   setTags([label]);
+  // }
   function renderJobs(jobs, tags) {
     jobs = jobs.filter((job) => {
       tags = tags.map((item) => item.toUpperCase());
@@ -135,7 +135,7 @@ function Home({ reduxJobs, reduxSelectedTags }) {
             className={styles.filter}
             tags={reduxSelectedTags}
             availableTags={availableTags}
-            handleClickFilterTag={handleClickFilterTag}
+            // handleClickFilterTag={handleClickFilterTag}
             handleSelectFilterTag={handleSelectTag}
           />
           {/* [TERNYATA] mapping data yang return <Component /> yang bikin lemot!!!, di dalam Job ada mapping data lagi */}

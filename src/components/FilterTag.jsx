@@ -9,6 +9,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import Tag from "./Tag";
 
 import deleteTag from "../actions/deleteTag";
+import selectOneTag from "../actions/selectOneTag";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,18 +28,17 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-function FilterTag({
-  label,
-  // handleDelete,
-  deleteTag,
-  handleClickFilterTag,
-  ...props
-}) {
+function FilterTag({ label, deleteTag, selectOneTag, ...props }) {
   const styles = useStyles();
 
   function onCloseClick(label) {
     return function () {
       deleteTag(label);
+    };
+  }
+  function onClickTag(label) {
+    return function () {
+      selectOneTag(label);
     };
   }
   return (
@@ -49,7 +49,7 @@ function FilterTag({
       disableElevation
       {...props}
     >
-      <Tag label={label} handleClick={handleClickFilterTag} />
+      <Tag label={label} handleClick={onClickTag} />
       <Button className={styles.close} onClick={onCloseClick(label)}>
         <ClearIcon />
       </Button>
@@ -58,7 +58,7 @@ function FilterTag({
 }
 
 function mapDispatch(dispatch) {
-  return bindActionCreators({ deleteTag }, dispatch);
+  return bindActionCreators({ deleteTag, selectOneTag }, dispatch);
 }
 
 export default connect(null, mapDispatch)(FilterTag);
