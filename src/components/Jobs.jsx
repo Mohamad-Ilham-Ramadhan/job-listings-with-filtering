@@ -1,7 +1,7 @@
 import React from "react";
 import Job from "./Job";
 
-function Jobs({ jobs, styles, handleClick, handleClickFilterTag }) {
+function Jobs({ jobs, styles }) {
   return jobs.map((job) => (
     <Job
       key={job.id}
@@ -15,7 +15,6 @@ function Jobs({ jobs, styles, handleClick, handleClickFilterTag }) {
       location={job.location}
       contract={job.contract}
       tags={job.tags}
-      handleClick={handleClick}
     />
   ));
 }

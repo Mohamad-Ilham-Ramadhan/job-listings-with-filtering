@@ -125,6 +125,9 @@ const useStylesBorderLeft = makeStyles((theme) => ({
   root: {
     borderLeft: `${borderThick}px solid ${theme.palette.primary.main}`,
     paddingLeft: 23 - borderThick,
+    [theme.breakpoints.up("md")]: {
+      paddingLeft: 38 - borderThick,
+    },
   },
 }));
 const useStylesDot = makeStyles((theme) => ({

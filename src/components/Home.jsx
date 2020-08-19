@@ -4,19 +4,13 @@ import { makeStyles, StylesProvider } from "@material-ui/core/styles";
 import bgHeaderMobile from "../images/bg-header-mobile.svg";
 import bgHeaderDesktop from "../images/bg-header-desktop.svg";
 import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
 
 import Filter from "./Filter";
 import Jobs from "./Jobs";
 
 import filterTagsByType from "../api/filterTagsByType";
 import database from "../../database.json";
-
-const imagesPath = "./images/"; // webpack will handle the images to build directory
-let data = database.map((item) => ({
-  ...item,
-  logo: `${imagesPath + item.logo}`,
-  tags: [item.role, item.level, ...item.languages, ...item.tools],
-}));
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -45,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   main: {
     paddingBottom: theme.spacing(10),
     paddingTop: theme.spacing(7),
+    minHeight: "calc(100vh - 156px)",
     backgroundColor: theme.palette.neutral.lightGrayishCyanBg,
     [theme.breakpoints.up("md")]: {
       paddingTop: theme.spacing(10),
@@ -70,29 +65,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Home({ reduxJobs, reduxSelectedTags, reduxTagsByType }) {
-  console.log(reduxSelectedTags);
-  console.log(reduxTagsByType);
+function Home({ reduxJobs, reduxSelectedTags }) {
   const styles = useStyles();
-
-  function handleClickTag(label) {
-    setTags((tags) => {
-      if (tags.find((tag) => tag == label)) {
-        return tags;
-      } else {
-        return [...tags, label];
-      }
-    });
-  }
-  function handleSelectTag(tag) {
-    setTags((tags) => {
-      if (tags.find((item) => item == tag)) {
-        return tags.filter((item) => item !== tag);
-      } else {
-        return [...tags, tag];
-      }
-    });
-  }
 
   return (
     <>
@@ -102,17 +76,12 @@ function Home({ reduxJobs, reduxSelectedTags, reduxTagsByType }) {
       </header>
       <main className={styles.main}>
         <Container className={styles.container}>
-          <Filter
-            className={styles.filter}
-            tags={reduxSelectedTags}
-            handleSelectFilterTag={handleSelectTag}
-          />
+          <Filter className={styles.filter} tags={reduxSelectedTags} />
+          {reduxJobs.length == 0 && (
+            <Typography>No jobs available based on filter applied.</Typography>
+          )}
           {/* [TERNYATA] mapping data yang return <Component /> yang bikin lemot!!!, di dalam Job ada mapping data lagi */}
-          <Jobs
-            jobs={reduxJobs}
-            styles={styles.job}
-            handleClick={handleClickTag}
-          />
+          <Jobs jobs={reduxJobs} styles={styles.job} />
         </Container>
       </main>
     </>
