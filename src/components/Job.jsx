@@ -1,6 +1,7 @@
 import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import clsx from "clsx";
-import { v4 as uuid } from "uuid";
 import { makeStyles, lighten } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -12,8 +13,9 @@ import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
-import avaPhotosnap from "../images/photosnap.svg";
 import Tags from "./Tags";
+
+import addTag from "../actions/addTag";
 
 const borderThick = 5;
 const useStyles = makeStyles((theme) => ({
@@ -140,7 +142,7 @@ function Dot() {
   const styles = useStylesDot();
   return <div className={styles.root}></div>;
 }
-export default function Job({
+function Job({
   logo,
   isNew,
   featured,
@@ -150,10 +152,18 @@ export default function Job({
   location,
   contract,
   tags,
-  handleClick,
+  // handleClick,
+  addTag,
   ...props
 }) {
   const styles = useStyles();
+
+  function onClickTag(value) {
+    return function () {
+      addTag(value);
+    };
+  }
+
   let stylesBorderLeft = {};
   if (featured) {
     stylesBorderLeft = useStylesBorderLeft();
@@ -193,9 +203,15 @@ export default function Job({
           <Divider className={styles.divider} />
         </Grid>
         <Grid className={styles.gridTags} item xs={12} md={6}>
-          <Tags tags={tags} styles={styles.tag} handleClick={handleClick} />
+          <Tags tags={tags} styles={styles.tag} handleClick={onClickTag} />
         </Grid>
       </Grid>
     </Paper>
   );
 }
+
+function mapDispatch(dispatch) {
+  return bindActionCreators({ addTag }, dispatch);
+}
+
+export default connect(null, mapDispatch)(Job);
