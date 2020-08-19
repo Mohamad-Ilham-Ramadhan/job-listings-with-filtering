@@ -139,7 +139,7 @@ const useStylesDot = makeStyles((theme) => ({
   },
 }));
 
-const imagesPath = "../images/";
+const imagesPath = "./images/";
 
 function Dot() {
   const styles = useStylesDot();
