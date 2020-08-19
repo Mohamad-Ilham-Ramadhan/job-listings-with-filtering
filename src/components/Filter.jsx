@@ -126,7 +126,6 @@ function Filter({
       <Grid className={styles.gridFilterSelect} item xs={12} md={2}>
         <FilterSelect
           show={tags.length > 0 ? false : true}
-          availableTags={availableTags}
           selectedTags={tags}
           handleSelectTag={handleSelectFilterTag}
         />

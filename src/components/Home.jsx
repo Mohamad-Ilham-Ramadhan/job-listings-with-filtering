@@ -18,18 +18,6 @@ let data = database.map((item) => ({
   tags: [item.role, item.level, ...item.languages, ...item.tools],
 }));
 
-const roles = filterTagsByType(database, "role");
-const levels = filterTagsByType(database, "level");
-const languages = filterTagsByType(database, "languages");
-const tools = filterTagsByType(database, "tools");
-
-const availableTags = [
-  { type: "role", tags: roles },
-  { type: "level", tags: levels },
-  { type: "languages", tags: languages },
-  { type: "tools", tags: tools },
-];
-
 const useStyles = makeStyles((theme) => ({
   header: {
     height: 156,
@@ -82,8 +70,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Home({ reduxJobs, reduxSelectedTags }) {
+function Home({ reduxJobs, reduxSelectedTags, reduxTagsByType }) {
   console.log(reduxSelectedTags);
+  console.log(reduxTagsByType);
   const styles = useStyles();
 
   function handleClickTag(label) {
@@ -104,9 +93,6 @@ function Home({ reduxJobs, reduxSelectedTags }) {
       }
     });
   }
-  // function handleClickFilterTag(label) {
-  //   setTags([label]);
-  // }
 
   return (
     <>
@@ -119,7 +105,6 @@ function Home({ reduxJobs, reduxSelectedTags }) {
           <Filter
             className={styles.filter}
             tags={reduxSelectedTags}
-            availableTags={availableTags}
             handleSelectFilterTag={handleSelectTag}
           />
           {/* [TERNYATA] mapping data yang return <Component /> yang bikin lemot!!!, di dalam Job ada mapping data lagi */}
@@ -133,6 +118,18 @@ function Home({ reduxJobs, reduxSelectedTags }) {
     </>
   );
 }
+
+const roles = filterTagsByType(database, "role");
+const levels = filterTagsByType(database, "level");
+const languages = filterTagsByType(database, "languages");
+const tools = filterTagsByType(database, "tools");
+
+const availableTags = [
+  { type: "role", tags: roles },
+  { type: "level", tags: levels },
+  { type: "languages", tags: languages },
+  { type: "tools", tags: tools },
+];
 
 function renderJobs(jobs, tags) {
   jobs = jobs.filter((job) => {

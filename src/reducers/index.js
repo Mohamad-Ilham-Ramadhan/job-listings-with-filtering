@@ -21,7 +21,7 @@ function selectedTags(state = [], action) {
     case "SELECT_ONE_TAG":
       return [action.value];
     default:
-      return ["Frontend", "React", "JavaScript"];
+      return state;
   }
 }
 

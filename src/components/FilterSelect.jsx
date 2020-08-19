@@ -1,4 +1,6 @@
 import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
@@ -8,9 +10,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
-
-import database from "../../database.json";
-window.database = database;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,11 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FilterSelect({
-  availableTags,
-  selectedTags,
-  handleSelectTag,
-}) {
+function FilterSelect({ reduxTagsByType, selectedTags, handleSelectTag }) {
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -76,7 +71,7 @@ export default function FilterSelect({
           }}
         >
           <List style={{ minWidth: 200 }}>
-            {availableTags.map((item) => (
+            {reduxTagsByType.map((item) => (
               <React.Fragment key={item.type}>
                 <ListItem key={item.type}>
                   <ListItemText secondary={item.type} />
@@ -97,3 +92,36 @@ export default function FilterSelect({
     </Paper>
   );
 }
+
+function filterTagsByType(data, type) {
+  function removeDuplicate(arr) {
+    return arr.reduce((acc, item) => {
+      const newItem = item.toUpperCase();
+      if (acc.map((el) => el.toUpperCase()).includes(newItem)) {
+        return [...acc];
+      } else {
+        return [...acc, item];
+      }
+    }, []);
+  }
+  if (Array.isArray(data[0][type])) {
+    return removeDuplicate(
+      data.reduce((acc, job) => [...acc, ...job[type]], [])
+    );
+  } else {
+    return removeDuplicate(data.map((item) => item[type]));
+  }
+}
+
+function mapState(state, ownProps) {
+  return {
+    reduxTagsByType: [
+      { type: "role", tags: filterTagsByType(state.jobs, "role") },
+      { type: "level", tags: filterTagsByType(state.jobs, "level") },
+      { type: "languages", tags: filterTagsByType(state.jobs, "languages") },
+      { type: "tools", tags: filterTagsByType(state.jobs, "tools") },
+    ],
+  };
+}
+
+export default connect(mapState, null)(FilterSelect);
